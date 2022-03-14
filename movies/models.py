@@ -1,3 +1,15 @@
 from django.db import models
 
 # Create your models here.
+
+class Actor(models.Model):
+    first_name=models.CharField(max_length=45)
+    last_name=models.CharField(max_length=45)
+    date_of_birth=models.DateField()
+class Movie(models.Model):
+    title=models.CharField(max_length=45)
+    release_date=models.DateField()
+    running_time=models.IntegerField()
+class Actor_Movie(models.Model):
+    actor=models.ForeignKey('Actor', on_delete=models.CASCADE)
+    movie=models.ForeignKey('Movie', on_delete=modles.CASCADE)
