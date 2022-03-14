@@ -16,14 +16,25 @@ class OwnersView(View):
     def get(self,request):
         owners=Owner.objects.all()
         results=[]
+        dog_results=[]
         for owner in owners:
+            dogs=Dog.objects.filter(owner=owner)
+            for dog in dogs:
+                dog_results.append(
+                    {
+                        "dog_name" :dog.name,
+                        "dog_age" : dog.age
+                    }
+                )
             results.append(
-                {
-                    "age":owner.age,
-                    "e-mail":owner.email,
-                    "name":owner.name,
-                }
-            )
+                    {
+                        "age":owner.age,
+                        "e-mail":owner.email,
+                        "name":owner.name,
+                        "pet":dog_results
+                    }
+            ) 
+            dog_results=[]
         return JsonResponse({'results':results},status=200)
 
 class DogsView(View):
