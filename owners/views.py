@@ -16,9 +16,10 @@ class OwnersView(View):
     def get(self,request):
         owners=Owner.objects.all()
         results=[]
-        dog_results=[]
         for owner in owners:
+            dog_results=[]
             dogs=Dog.objects.filter(owner=owner)
+            # dogs=owner.dogs_set.all() 역참조 방식
             for dog in dogs:
                 dog_results.append(
                     {
@@ -34,7 +35,7 @@ class OwnersView(View):
                         "pet":dog_results
                     }
             ) 
-            dog_results=[]
+            
         return JsonResponse({'results':results},status=200)
 
 class DogsView(View):
