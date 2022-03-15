@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'owners',
     'movies',
+    'manytomany',
     'django_extensions'
 ]
 
