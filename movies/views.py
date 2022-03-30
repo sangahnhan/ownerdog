@@ -16,24 +16,31 @@ class ActorsView(View):
         return JsonResponse({'message':"created"},status=201)
     def get(self,request):
         datas   = Actor.objects.all()
-        results = []
-        for data in datas: 
-            movie_list = []
-            movies     = data.actor_movie_set.all()
-            for movie in movies: 
-                movie_list.append(
-                    {
-                        "movie": movie.movie.title
-                    }
-                )
-            results.append(
-                {
+        # results = []
+        # for data in datas: 
+        #     movie_list = []
+        #     movies     = data.actor_movie_set.all()
+        #     for movie in movies: 
+        #         movie_list.append(
+        #             {
+        #                 "movie": movie.movie.title
+        #             }
+        #         )
+        #     results.append(
+        #         {
+        #             "first_name"   : data.first_name,
+        #             "last_name"    : data.last_name,
+        #             "date_of_birth": data.date_of_birth,
+        #             "movie_list"   : movie_list
+        #         }
+        #     )
+        
+        results = [{
                     "first_name"   : data.first_name,
                     "last_name"    : data.last_name,
                     "date_of_birth": data.date_of_birth,
-                    "movie_list"   : movie_list
-                }
-            )
+                    "movie_list"   : [{"movie" : actormovie.movie.title} for actormovie in data.actor_movie_set.all()]
+                } for data in datas]
         return JsonResponse({'results':results},status=200)
 class MoviesView(View):
     def post(self,request): 
